@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-// NVIDIA NIM configuration
 const NIM_BASE_URL = 'https://integrate.api.nvidia.com/v1';
 const NIM_API_KEY = process.env.NIM_API_KEY;
 
@@ -20,7 +19,6 @@ export async function POST(req: NextRequest) {
   try {
     const body: GenerateRequest = await req.json();
 
-    // Validate required fields
     if (!body.culture || !body.role || !body.ageRange) {
       return NextResponse.json(
         { error: 'Missing required fields: culture, role, ageRange' },
@@ -28,7 +26,6 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Build the prompt for NVIDIA NIM
     const systemPrompt = `You are GitCast, an African character generator for film and television studios. 
 You create detailed, culturally grounded character profiles. 
 Respond ONLY with valid JSON matching this exact structure:
@@ -64,7 +61,6 @@ Requirements:
 
 Generate the complete JSON profile now.`;
 
-    // Call NVIDIA NIM
     const response = await fetch(`${NIM_BASE_URL}/chat/completions`, {
       method: 'POST',
       headers: {
@@ -102,12 +98,10 @@ Generate the complete JSON profile now.`;
       );
     }
 
-    // Parse and validate the JSON
     let character;
     try {
       character = JSON.parse(content);
     } catch {
-      // If JSON parsing fails, try to extract JSON from markdown code block
       const jsonMatch = content.match(/```json\n?([\s\S]*?)\n?```/);
       if (jsonMatch) {
         character = JSON.parse(jsonMatch[1]);
@@ -116,7 +110,6 @@ Generate the complete JSON profile now.`;
       }
     }
 
-    // Add metadata
     character.id = Math.random().toString(36).slice(2, 10);
     character.generated_at = new Date().toISOString();
     character._gitcast = {
@@ -134,5 +127,4 @@ Generate the complete JSON profile now.`;
       { status: 500 }
     );
   }
-          }
-    
+}
