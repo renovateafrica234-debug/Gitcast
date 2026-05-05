@@ -2,10 +2,6 @@
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 
-// ═══════════════════════════════════════════════════════════════
-//  TYPES
-// ═══════════════════════════════════════════════════════════════
-
 interface CharacterProfile {
   id: string;
   name: string;
@@ -32,12 +28,7 @@ interface Project {
   characters: CharacterProfile[];
 }
 
-// ═══════════════════════════════════════════════════════════════
-//  DATA: EXPANDED CULTURES (20+ Major Nigerian + Pan-African)
-// ═══════════════════════════════════════════════════════════════
-
 const CULTURES = [
-  // Major Nigerian Groups
   { id: 'Yoruba',      label: 'Yoruba',      region: 'Southwest',      population: '47M',  desc: 'Southwest Nigeria — Ife, Oyo, Lagos. Deep ritual tradition, talking drums, oriki praise poetry.',            adinkra: 'Gye Nyame' },
   { id: 'Igbo',        label: 'Igbo',        region: 'Southeast',      population: '45M',  desc: 'Southeast Nigeria — Nri, Arochukwu. Uli art, Igbo-Ukwu bronzes, republican ethos.',                      adinkra: 'Akoma' },
   { id: 'Hausa',       label: 'Hausa',       region: 'North',          population: '55M',  desc: 'Northern Nigeria — Kano, Zaria. Ancient city-states, Durbar horsemanship, Islamic scholarship.',           adinkra: 'Dwennimmen' },
@@ -61,7 +52,6 @@ const CULTURES = [
   { id: 'Ikwerre',     label: 'Ikwerre',     region: 'Rivers',         population: '2M',   desc: 'Rivers — Ohafia warrior links, distinct from Igbo politically, rich oral tradition.',                      adinkra: 'Akoben' },
   { id: 'Annang',      label: 'Annang',      region: 'Akwa Ibom',      population: '1M',   desc: 'Akwa Ibom — Ikot Ekpene heritage, raffia weaving, distinct from Ibibio.',                                  adinkra: 'Mate Masie' },
   { id: 'Yakurr',      label: 'Yakurr',      region: 'Cross River',    population: '0.5M', desc: 'Cross River — Leboku festival, yam harvest rituals, unique tonal language.',                               adinkra: 'Ohene Tuo' },
-  // Pan-African / Diaspora options for studios
   { id: 'Akan',        label: 'Akan (Ghana)', region: 'West Africa',   population: '20M',  desc: 'Ghana — Adinkra, Kente, Ashanti gold stool, Akwasidae festivals.',                                         adinkra: 'Gye Nyame' },
   { id: 'Wolof',       label: 'Wolof (Senegal)', region: 'West Africa', population: '6M',  desc: 'Senegal — Griot tradition, sabar drumming, teranga hospitality.',                                          adinkra: 'Sankofa' },
   { id: 'Mandinka',    label: 'Mandinka',    region: 'West Africa',    population: '12M',  desc: 'Mali/Senegal — Epic of Sundiata, kora music, empire builders.',                                            adinkra: 'Dwennimmen' },
@@ -120,10 +110,6 @@ const TONES = [
   { id: 'scifi',       label: 'Afrofuturism',        desc: 'Tech, space, and tradition intertwined. Black Panther meets District 9.' },
   { id: 'horror',      label: 'Folk Horror',         desc: 'The forest remembers. The river takes. The ancestors watch.' },
 ];
-    
-// ═══════════════════════════════════════════════════════════════
-//  ADINKRA SVG COMPONENTS (replacing emojis with real symbols)
-// ═══════════════════════════════════════════════════════════════
 
 const AdinkraSymbol = ({ name, className = '' }: { name: string; className?: string }) => {
   const symbols: Record<string, JSX.Element> = {
@@ -180,128 +166,6 @@ const AdinkraSymbol = ({ name, className = '' }: { name: string; className?: str
   };
   return symbols[name] || symbols['default'];
 };
-
-// ═══════════════════════════════════════════════════════════════
-//  MOCK GENERATOR (replace with real API call)
-// ═══════════════════════════════════════════════════════════════
-
-const MOCK_FIRST_NAMES: Record<string, string[]> = {
-  Yoruba: ['Olumide','Adebisi','Folake','Tunde','Yetunde','Bayo','Ngozi','Kunle','Adunni','Segun'],
-  Igbo: ['Chinua','Ngozi','Obi','Ifeoma','Chidi','Amara','Kelechi','Adaeze','Ikenna','Ziora'],
-  Hausa: ['Amina','Usman','Fatima','Yusuf','Zainab','Abubakar','Halima','Isa','Khadija','Musa'],
-  Fulani: ['Binta','Amadou','Mariama','Ibrahim','Aissata','Ousmane','Fatou','Modibo','Kadiatou','Sekou'],
-  Ijaw: ['Ebiere','Timi','Dumo','Bibobra','Austin','Tamara','Ine','Kuro','Seiyefa','Ere'],
-  Edo: ['Eghosa','Osaretin','Aghogho','Ekiuwa','Esohe','Aize','Osagie','Eki','Omoruyi','Ese'],
-  Tiv: ['Terngu','Dooshima','Aondohemba','Mlumun','Iveren','Terver','Sedoo','Akaahan','Torkwase','Suur'],
-  Efik: ['Ekanem','Edet','Ekpenyong','Eyo','Nsikak','Aniekan','Imabong','Ekem','Eti','Offiong'],
-  Ibibio: ['Akpan','Ekaette','Nsikak','Aniebiet','Ime','Effiong','Uduak','Ekong','Etim','Anwana'],
-  Kanuri: ['Bukar','Falmata','Goni','Kaka','Lawan','Maina','Mustapha','Shetima','Tijjani','Yerima'],
-  Nupe: ['Musa','Fatima','Yahaya','Hassan','Aisha','Ibrahim','Zainab','Abdul','Halima','Suleiman'],
-  Igala: ['Onoja','Ameh','Ekele','Ocholi','Adejo','Halimat','Amina','Yusuf','Fatima','Moses'],
-  Idoma: ['Oche','Ene','Aba','Agbo','Ogbu','Adakole','Ehi','Ode','Aloysius','Ene'],
-  Urhobo: ['Oghenekaro','Efe','Onome','Akporero','Ovie','Elohor','Miriam','Ochuko','Emume','Efetobore'],
-  Isoko: ['Ogaga','Efe','Onome','Ovie','Elohor','Ochuko','Emume','Efetobore','Akpor','Miriam'],
-  Ebira: ['Ozovehe','Aminu','Onimisi','Adavize','Yakubu','Aisha','Halima','Sani','Zainab','Yusuf'],
-  Gwari: ['Musa','Yakubu','Aisha','Sani','Halima','Zainab','Yusuf','Fatima','Ibrahim','Abdul'],
-  Bura: ['Bukar','Falmata','Goni','Kaka','Lawan','Maina','Mustapha','Shetima','Tijjani','Yerima'],
-  Itsekiri: ['Emiko','Olu','Ikenwoli','Erejuwa','Akenzua','Ogiame','Eyimofe','Oritse','Omatsone','Tuedon'],
-  Ogoni: ['Letam','Bariledum','Suanu','Nwinee','Gbeneku','Lolomari','Nkeduru','Deekae','Bariyira','Nale'],
-  Ikwerre: ['Chibuike','Ngozi','Obi','Ifeoma','Chidi','Amara','Kelechi','Adaeze','Ikenna','Ziora'],
-  Annang: ['Akpan','Ekaette','Nsikak','Aniebiet','Ime','Effiong','Uduak','Ekong','Etim','Anwana'],
-  Yakurr: ['Ekpenyong','Ekanem','Edet','Eyo','Nsikak','Aniekan','Imabong','Ekem','Eti','Offiong'],
-  Akan: ['Kwame','Ama','Kofi','Akosua','Kwabena','Adwoa','Yaw','Afua','Kofi','Yaa'],
-  Wolof: ['Amadou','Aminata','Moussa','Fatou','Ibrahima','Ndeye','Omar','Mariama','Cheikh','Awa'],
-  Mandinka: ['Kunta','Binta','Lamin','Isatou','Mamadou','Fatoumata','Sulayman','Neneh','Modou','Kaddy'],
-  'Yoruba-Diaspora': ['Lazaro','Oya','Shango','Oshun','Yemaya','Obatala','Eleggua','Oya','Babalu','Yemoja'],
-};
-
-function generateMockCharacter(
-  cultureId: string,
-  roleId: string,
-  ageId: string,
-  profession: string,
-  toneId: string
-): CharacterProfile {
-  const names = MOCK_FIRST_NAMES[cultureId] || MOCK_FIRST_NAMES['Yoruba'];
-  const firstName = names[Math.floor(Math.random() * names.length)];
-  const surnames = ['Okafor','Adeyemi','Mohammed','Ibrahim','Eze','Nwosu','Abubakar','Ojo','Balogun','Danjuma'];
-  const surname = surnames[Math.floor(Math.random() * surnames.length)];
-  const ageMap: Record<string, [number, number]> = {
-    'Child (5-12)': [5,12], 'Teen (13-19)': [13,19], 'Young Adult (20-28)': [20,28],
-    'Adult (29-40)': [29,40], 'Middle Age (41-55)': [41,55], 'Senior (56-70)': [56,70], 'Elder (70+)': [70,85],
-  };
-  const [minAge, maxAge] = ageMap[ageId] || [25,45];
-  const age = Math.floor(Math.random() * (maxAge - minAge + 1)) + minAge;
-
-  const culture = CULTURES.find(c => c.id === cultureId)!;
-  const role = ROLES.find(r => r.id === roleId)!;
-  const tone = TONES.find(t => t.id === toneId)!;
-
-  const backstories: Record<string, string[]> = {
-    gritty: [
-      `Born in ${culture.region}, ${firstName} grew up in a household where silence was safer than speech. The ${profession.toLowerCase()} trade chose them before they could choose it.`,
-      `${firstName} left ${culture.region} at 16 with a borrowed phone and a forged reference. Now they are a ${profession.toLowerCase()} who knows which doors open with money and which with memory.`,
-    ],
-    mythic: [
-      `${firstName} carries a birthmark that elders whisper mirrors the constellation of the ${culture.label} creation myth. As a ${profession.toLowerCase()}, they straddle two worlds.`,
-      `The ${culture.label} spirits do not speak to just anyone. But since the accident, ${firstName} has heard them in the static between radio stations.`,
-    ],
-    satirical: [
-      `${firstName} became a ${profession.toLowerCase()} because it was the only job where incompetence looked like strategy. They have Excel sheets for everything except their own life.`,
-      `In ${culture.region}, ${firstName} is known as the ${profession.toLowerCase()} who once corrected a senator's grammar on live television. The tweet is still circulating.`,
-    ],
-    romantic: [
-      `${firstName} has loved exactly once — at nineteen, in the rain, behind the ${culture.label} community hall. Now a ${profession.toLowerCase()}, they measure every new encounter against that impossible standard.`,
-      `They say ${firstName} has a laugh like their grandmother's. As a ${profession.toLowerCase()}, they hide behind competence what they cannot say with words.`,
-    ],
-    thriller: [
-      `${firstName} discovered something in the ${profession.toLowerCase()}'s ledger that was never meant to be found. Now the phone rings at 3 AM and the caller knows their mother's name.`,
-      `Three people have died in ${culture.region} this month. All ${profession.toLowerCase()}s. ${firstName} does not believe in coincidences.`,
-    ],
-    historical: [
-      `${firstName} was born in the year the ${culture.label} elders signed the treaty that would unravel their kingdom. As a ${profession.toLowerCase()}, they have spent forty years watching the consequences unfold.`,
-      `The British called them a ${profession.toLowerCase()}. The ${culture.label} resistance called them something else entirely. ${firstName} answers to neither.`,
-    ],
-    scifi: [
-      `${firstName} is a ${profession.toLowerCase()} on Orbital Station Ife-7, where the ${culture.label} diaspora has preserved traditions in code and ritual in zero gravity.`,
-      `In 2087, ${firstName} uploads ancestral memory to the cloud for a living. But last Tuesday, something downloaded back.`,
-    ],
-    horror: [
-      `${firstName} returned to ${culture.region} to bury their father. The ${profession.toLowerCase()} shop was supposed to be temporary. That was three months ago. The forest has started whispering.`,
-      `Every ${culture.label} child knows not to speak the name of the river at night. ${firstName}, a ${profession.toLowerCase()}, learned why the hard way.`,
-    ],
-  };
-
-  const pool = backstories[tone.id] || backstories['gritty'];
-  const backstory = pool[Math.floor(Math.random() * pool.length)];
-
-  return {
-    id: Math.random().toString(36).slice(2, 10),
-    name: `${firstName} ${surname}`,
-    age,
-    culture: culture.label,
-    role: role.label,
-    profession,
-    backstory,
-    personality: ['Resilient','Wry humor','Guarded warmth','Strategic silence'],
-    speech_patterns: `Speaks with the measured cadence of ${culture.region}. Uses proverbs when cornered. Code-switches between ${culture.label} and English depending on power dynamics.`,
-    relationships: 'Estranged from a sibling who chose tradition over ambition. Owes a debt to a former mentor that can never be fully repaid.',
-    dialogue_samples: [
-      `"The river does not hurry, but it reaches the sea." — spoken while staring at a phone that will not ring.`,
-      `"In my house, we do not say 'impossible.' We say 'not yet.'" — deflecting a direct question about the past.`,
-      `"You think this is about money?" — the moment before the truth comes out.`,
-    ],
-    visual_description: `${age > 50 ? 'Silver-threaded hair' : 'Close-cropped hair with a deliberate scar above the left brow'}. Dresses like someone who learned early that appearance is armor. ${culture.region} features with ${['sharp','soft','angular','broad'][Math.floor(Math.random()*4)]} bone structure.`,
-    cultural_notes: `${culture.desc}. In ${culture.label} tradition, the ${role.label.toLowerCase()} archetype appears in ${['oral epics','masquerade narratives','proverb cycles','funeral oratory'][Math.floor(Math.random()*4)]}.`,
-    voice_notes: `Pitch: ${['low','mid','high'][Math.floor(Math.random()*3)]}. Tempo: ${['deliberate','rapid','measured'][Math.floor(Math.random()*3)]}. Distinctive feature: ${['pauses before proper nouns','laughs at own jokes','rarely uses first person','hums when thinking'][Math.floor(Math.random()*4)]}.`,
-    casting_tags: [culture.region, role.category, tone.label.split(' ')[0], profession.split(' ')[0]],
-    generated_at: new Date().toISOString(),
-  };
-    }
-          // ═══════════════════════════════════════════════════════════════
-//  MAIN COMPONENT
-// ═══════════════════════════════════════════════════════════════
-
 export default function GitCastStudio() {
   const [culture, setCulture]     = useState('');
   const [role, setRole]           = useState('');
@@ -315,10 +179,10 @@ export default function GitCastStudio() {
   const [projects, setProjects]   = useState<Project[]>([]);
   const [activeProject, setActiveProject] = useState<string | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [viewMode, setViewMode]   = useState<'bible' | 'cards' | 'script'>('bible');
 
   const resultRef = useRef<HTMLDivElement>(null);
 
+  // REAL NVIDIA NIM API CALL
   const generate = useCallback(async () => {
     if (!culture || !role || !age) return;
     setLoading(true);
@@ -326,14 +190,31 @@ export default function GitCastStudio() {
     setCharacter(null);
 
     try {
-      await new Promise(r => setTimeout(r, 1800));
-      const data = generateMockCharacter(culture, role, age, profession || 'Unspecified', tone);
+      const res = await fetch('/api/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          culture,
+          role,
+          ageRange: age,
+          profession: profession || undefined,
+          tone,
+        }),
+      });
+      
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || 'Generation failed');
+      }
+      
+      const { character: data } = await res.json();
       setCharacter(data);
+      
       setTimeout(() => {
         resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }, 100);
-    } catch {
-      setError('Generation failed. Check connection and try again.');
+    } catch (e: any) {
+      setError(e.message || 'The engine could not generate. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -369,17 +250,12 @@ export default function GitCastStudio() {
   };
 
   const exportPDF = () => {
-    alert('PDF export requires server-side rendering (puppeteer/playwright). See architecture notes below.');
+    alert('PDF export requires server-side rendering (puppeteer/playwright).');
   };
-
-  const selectedCulture = CULTURES.find(c => c.id === culture);
-  const selectedRole = ROLES.find(r => r.id === role);
-  const selectedAge = AGES.find(a => a.id === age);
-  const selectedTone = TONES.find(t => t.id === tone);
 
   return (
     <div className="studio-root">
-                                                   <style>{`
+      <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
         :root {
@@ -642,7 +518,7 @@ export default function GitCastStudio() {
           .bible-header { flex-direction: column; gap: 16px; }
         }
       `}</style>
-                                                           {/* ═══════ TOP BAR ═══════ */}
+      {/* ═══════ TOP BAR ═══════ */}
       <header className="topbar">
         <div className="topbar-left">
           <div className="topbar-logo">
@@ -666,7 +542,6 @@ export default function GitCastStudio() {
 
       {/* ═══════ WORKSPACE ═══════ */}
       <div className="workspace">
-        {/* Sidebar */}
         <aside className={`sidebar ${sidebarOpen ? '' : 'collapsed'}`}>
           <div className="sidebar-header">Active Projects</div>
           <div className="sidebar-list">
@@ -689,12 +564,10 @@ export default function GitCastStudio() {
           </div>
         </aside>
 
-        {/* Main Stage */}
         <main className="stage">
           <div className="stage-scroll">
-                                {activeTab === 'studio' && (
+            {activeTab === 'studio' && (
               <>
-                {/* ── CULTURE ── */}
                 <div className="section-label">Origin / Ethnicity</div>
                 <div className="param-grid">
                   {CULTURES.map(c => (
@@ -711,7 +584,6 @@ export default function GitCastStudio() {
                   ))}
                 </div>
 
-                {/* ── ROLE ── */}
                 <div className="section-label">Dramatic Function</div>
                 <div className="param-grid">
                   {ROLES.map(r => (
@@ -727,7 +599,6 @@ export default function GitCastStudio() {
                   ))}
                 </div>
 
-                {/* ── AGE + PROFESSION + TONE ── */}
                 <div className="field-row">
                   <div className="field">
                     <label>Age Range</label>
@@ -763,7 +634,6 @@ export default function GitCastStudio() {
                   ))}
                 </div>
 
-                {/* ── GENERATE ── */}
                 <div className="generate-bar">
                   <button className="generate-btn" onClick={generate} disabled={!canGenerate || loading}>
                     {loading ? <span className="loading-spinner" style={{width:16,height:16,margin:0,borderWidth:2}}/> : '▶'}
@@ -780,14 +650,13 @@ export default function GitCastStudio() {
                   </div>
                 )}
 
-                {/* ── RESULT ── */}
                 {loading && (
                   <div className="loading-state">
                     <div className="loading-spinner" />
                     <div className="loading-text">Consulting the narrative engine...</div>
                   </div>
                 )}
-                            {character && !loading && (
+                {character && !loading && (
                   <div ref={resultRef} className="bible">
                     <div className="bible-header">
                       <div className="bible-header-left">
@@ -880,7 +749,8 @@ export default function GitCastStudio() {
                 )}
               </>
             )}
-                                {activeTab === 'projects' && (
+
+            {activeTab === 'projects' && (
               <div>
                 <div className="section-label">Project Library</div>
                 {projects.length === 0 ? (
@@ -930,5 +800,4 @@ export default function GitCastStudio() {
       </div>
     </div>
   );
-                     }
-                
+}
